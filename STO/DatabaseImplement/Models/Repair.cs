@@ -19,11 +19,13 @@ namespace DatabaseImplement.Models
         public DateTime? DateEnd { get; set; }
         [Required]
         public int Sum { get; set; }
+        public int? WorkId { get; set; }
+        public int? EmployeeId { get; set; }
         public RepairStatus Status {get; set;}
         [ForeignKey("EmployeeId")]
         public Employee? Employee { get; set; }
         [ForeignKey("WorkId")]
-        public Work Work { get; set; }
+        public Work? Work { get; set; }
         public Client Client{ get; set; }
         public List<Payment> Payments { get; set; }
     }

@@ -15,6 +15,7 @@ namespace DatabaseImplement.Models
         public int Sum { get; set; }
         public int Remains { get; set; }
         [ForeignKey("RepairId")]
+        public int RepairId { get; set; }
         public Repair Repair { get; set; }
     }
 }

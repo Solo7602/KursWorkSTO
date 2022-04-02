@@ -10,7 +10,7 @@ namespace BuisnessLogic.BuisnessLogic
     public class ClientLogic : IClientLogic
     {
         private IClientStorage clientStorage;
-        ClientLogic(IClientStorage clientS)
+        public ClientLogic(IClientStorage clientS)
         {
             clientStorage = clientS;
         }

@@ -10,7 +10,7 @@ namespace BuisnessLogic.BuisnessLogic
     public class RepairLogic : IRepairLogic
     {
         private IRepairStorage repairStorage;
-        RepairLogic(IRepairStorage repairS)
+        public RepairLogic(IRepairStorage repairS)
         {
             repairStorage = repairS;
         }

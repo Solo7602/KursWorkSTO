@@ -23,8 +23,8 @@ namespace DatabaseImplement.Models
         [Required]
         public string EmployeePrize { get; set; }
         [ForeignKey("StaffId")]
-        public virtual List<Staff> Staffs { get; set; }
-        public virtual List<Repair> Repairs { get; set; }
+        public virtual Staff Staffs { get; set; }
+        public virtual List<Repair>? Repairs { get; set; }
 
     }
 }

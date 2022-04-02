@@ -13,7 +13,7 @@ namespace BuisnessLogic.BuisnessLogic
     public class PaymentLogic : IPaymentLogic
     {
         private IPaymentStorage paymentStorage;
-        PaymentLogic(IPaymentStorage paymentS)
+        public PaymentLogic(IPaymentStorage paymentS)
         {
             paymentStorage = paymentS;
         }
