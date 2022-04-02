@@ -1,4 +1,5 @@
 ﻿using BuisnessLogic.Enums;
+using System;
 
 namespace BuisnessLogic.ViewModels
 {
