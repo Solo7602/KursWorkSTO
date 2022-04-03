@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DatabaseImplement.Migrations
 {
     [DbContext(typeof(StoDatabase))]
-    [Migration("20220403163656_clientId")]
-    partial class clientId
+    [Migration("20220403225038_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,7 +23,7 @@ namespace DatabaseImplement.Migrations
 
             modelBuilder.Entity("DatabaseImplement.Models.Client", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -58,7 +58,7 @@ namespace DatabaseImplement.Migrations
 
             modelBuilder.Entity("DatabaseImplement.Models.Employee", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -68,6 +68,10 @@ namespace DatabaseImplement.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EmployeeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmployeePassword")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -112,12 +116,12 @@ namespace DatabaseImplement.Migrations
 
             modelBuilder.Entity("DatabaseImplement.Models.Repair", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ClientId")
+                    b.Property<int?>("ClientId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DateEnd")
@@ -216,9 +220,7 @@ namespace DatabaseImplement.Migrations
                 {
                     b.HasOne("DatabaseImplement.Models.Client", "Client")
                         .WithMany("Repairs")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ClientId");
 
                     b.HasOne("DatabaseImplement.Models.Employee", "Employee")
                         .WithMany("Repairs")
