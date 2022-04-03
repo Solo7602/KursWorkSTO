@@ -44,7 +44,7 @@ namespace ClientView
             var currentContainer = new UnityContainer();
             currentContainer.RegisterType<IEmployeeStorage,
             EmployeeStorage>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IWorkStorage, WorkStarage>(new
+            currentContainer.RegisterType<IWorkStorage, WorkStorage>(new
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IStaffStorage, StaffStorage>(new
             HierarchicalLifetimeManager());

@@ -2,6 +2,7 @@
 using BuisnessLogic.StorageInterfaces;
 using BuisnessLogic.ViewModels;
 using DatabaseImplement.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DatabaseImplement.Implements
 {
-    public class RepairStorage:IRepairStorage
+    public class RepairStorage : IRepairStorage
     {
         public List<RepairViewModel> GetFullList()
         {
@@ -27,7 +28,9 @@ namespace DatabaseImplement.Implements
             }
             using var context = new StoDatabase();
             return context.Repairs
-            .Where(rec => rec.Name.Contains(model.Name))
+            .Include(rec => rec.Client)
+            .Include(rec => rec.Work)
+            .Where(rec => rec.ClientId == model.ClientId)
             .Select(CreateModel)
             .ToList();
         }
@@ -39,8 +42,7 @@ namespace DatabaseImplement.Implements
             }
             using var context = new StoDatabase();
             var repair = context.Repairs
-            .FirstOrDefault(rec => rec.Name == model.Name || rec.Id
-           == model.Id);
+            .FirstOrDefault(rec => rec.Id == model.Id);
             return repair != null ? CreateModel(repair) : null;
         }
         public void Insert(RepairBindingModel model)
@@ -78,9 +80,11 @@ namespace DatabaseImplement.Implements
         private static Repair CreateModel(RepairBindingModel model, Repair
        repair)
         {
+            repair.Id = model.Id;
             repair.Name = model.Name;
             repair.WorkId = model.WorkId;
-            repair.EmployeeId = (int)model.EmployeeId;
+            repair.EmployeeId = model.EmployeeId;
+            repair.ClientId = model.ClientId;
             repair.Status = model.Status;
             repair.Sum = model.Sum;
             repair.DateStart = model.DateStart;
@@ -91,14 +95,16 @@ namespace DatabaseImplement.Implements
         {
             return new RepairViewModel
             {
-            Name = repair.Name,
-            WorkId = repair.WorkId,
-            EmployeeId = (int)repair.EmployeeId,
-            Status = repair.Status,
-            Sum = repair.Sum,
-            DateStart = repair.DateStart,
-            DateEnd = repair.DateEnd
-        };
+                Id = repair.Id,
+                Name = repair.Name,
+                WorkId = repair.WorkId,
+                EmployeeId = repair.EmployeeId,
+                Status = repair.Status,
+                Sum = repair.Sum,
+                ClientId = repair.ClientId,
+                DateStart = repair.DateStart,
+                DateEnd = repair.DateEnd
+            };
         }
     }
 }

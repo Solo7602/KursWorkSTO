@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DatabaseImplement.Implements
 {
-    public class WorkStarage : IWorkStorage
+    public class WorkStorage : IWorkStorage
     {
         public List<WorkViewModel> GetFullList()
         {
@@ -39,8 +39,7 @@ namespace DatabaseImplement.Implements
             }
             using var context = new StoDatabase();
             var work = context.Works
-            .FirstOrDefault(rec => rec.WorkName == model.WorkName || rec.Id
-           == model.Id);
+            .FirstOrDefault(rec =>rec.Id == model.Id);
             return work != null ? CreateModel(work) : null;
         }
         public void Insert(WorkBindingModel model)

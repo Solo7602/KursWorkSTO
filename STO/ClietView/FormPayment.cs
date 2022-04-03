@@ -15,23 +15,36 @@ namespace ClientView
     public partial class FormPayment : Form
     {
         private readonly IPaymentLogic _logic;
-        public FormPayment(IPaymentLogic paymentLogic)
+        private readonly IRepairLogic _logicRep;
+        public int Id { set { id = value; } }
+        private int id;
+        public FormPayment(IPaymentLogic paymentLogic, IRepairLogic logicRep)
         {
+            _logicRep = logicRep;
             _logic = paymentLogic;
             InitializeComponent();
         }
 
-        private void buttonCreate_Click(object sender, EventArgs e)
+        private void buttonPay_Click(object sender, EventArgs e)
         {
             try
             {
+                var lastPay = _logic.GetLastPay(new PaymentBindingModel() { RepairId = id });
+                int remain= _logicRep.Read(new RepairBindingModel() { Id = id})[0].Sum - Convert.ToInt32(textBoxSum.Text);
+                if(lastPay != null)
+                {
+                    remain = lastPay.Remain - Convert.ToInt32(textBoxSum.Text);
+                    if (remain < 0) remain = 0;
+                }
+                
                 _logic.CreateOrUpdate(new PaymentBindingModel
                 {
+                    Remain = remain,
+                    RepairId = id,
                     Sum = Convert.ToInt32(textBoxSum.Text),
-                    Remain = Convert.ToInt32(textBoxRemain.Text),
-                    RepairId = Convert.ToInt32(textBoxId.Text)
+
                 });
-                MessageBox.Show("Сохранение прошло успешно", "Сообщение",
+                MessageBox.Show("Оплата прошла успешно, осталось оплатить: "+remain, "Сообщение",
                MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
             }
@@ -42,34 +55,22 @@ namespace ClientView
             }
         }
 
-        private void buttonDelete_Click(object sender, EventArgs e)
+        private void FormPayment_Load(object sender, EventArgs e)
         {
-            int id = Convert.ToInt32(textBoxId.Text);
             try
             {
-                _logic.Delete(new PaymentBindingModel { Id = id });
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-               MessageBoxIcon.Error);
-            }
-        }
+                var lastPay = _logic.GetLastPay(new PaymentBindingModel() { RepairId = id });
+                labelRemain.Text = lastPay.Remain.ToString();
 
-        private void buttonUpdate_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                _logic.CreateOrUpdate(new PaymentBindingModel
+                var list = _logic.Read(new PaymentBindingModel() { RepairId = id});
+                if (list != null)
                 {
-                    Id = Convert.ToInt32(textBoxId.Text),
-                    Sum = Convert.ToInt32(textBoxSum.Text),
-                    Remain = Convert.ToInt32(textBoxRemain.Text),
-                    RepairId = Convert.ToInt32(textBoxId.Text)
-                });
-                MessageBox.Show("Сохранение прошло успешно", "Сообщение",
-               MessageBoxButtons.OK, MessageBoxIcon.Information);
-                DialogResult = DialogResult.OK;
+                    dataGridView.Rows.Clear();
+                    foreach (var repair in list)
+                    {
+                        dataGridView.Rows.Add(new object[] { repair.Sum, repair.RepairId });
+                    }
+                }
             }
             catch (Exception ex)
             {

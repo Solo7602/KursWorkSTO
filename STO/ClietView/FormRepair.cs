@@ -1,6 +1,7 @@
 ﻿using BuisnessLogic.BindingModels;
 using BuisnessLogic.BuisnessLogicInterfaces;
 using BuisnessLogic.Enums;
+using BuisnessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,8 +17,12 @@ namespace ClientView
     public partial class FormRepair : Form
     {
         private readonly IRepairLogic _logic;
-        public FormRepair(IRepairLogic repairLogic)
+        private readonly IWorkLogic logicWork;
+        public int Id { set { id = value; } }
+        private int? id;
+        public FormRepair(IRepairLogic repairLogic, IWorkLogic workLogic)
         {
+            logicWork = workLogic;
             _logic = repairLogic;
             InitializeComponent();
         }
@@ -28,11 +33,13 @@ namespace ClientView
             {
                 _logic.CreateOrUpdate(new RepairBindingModel
                 {
-                    Sum = Convert.ToInt32(textBoxName.Text),
-                    ClientId = Convert.ToInt32(textBoxClientId.Text),
-                    Name = textBoxName.Text,
+                    Id = id,
+                    Sum = Convert.ToInt32(textBoxSum.Text),
                     DateStart = DateTime.Now,
-                    Status = (RepairStatus)Convert.ToInt32(textBoxStatus.Text)
+                    Status = RepairStatus.Adopted,
+                    Name = textBoxName.Text,
+                    ClientId = Program.client.Id,
+                    WorkId = (int)comboBoxWork.SelectedValue
 
                 });
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение",
@@ -46,42 +53,51 @@ namespace ClientView
             }
         }
 
-        private void buttonDelete_Click(object sender, EventArgs e)
-        {
-            int id = Convert.ToInt32(textBoxId.Text);
-            try
-            {
-                _logic.Delete(new RepairBindingModel { Id = id });
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-               MessageBoxIcon.Error);
-            }
-        }
 
-        private void buttonUpdate_Click(object sender, EventArgs e)
+        private void FormRepair_Load(object sender, EventArgs e)
         {
-            try
+
+            comboBoxWork.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+
+            var list = logicWork.Read(null);
+            foreach (var component in list)
             {
-                _logic.CreateOrUpdate(new RepairBindingModel
+                comboBoxWork.DisplayMember = "WorkName";
+                comboBoxWork.ValueMember = "Id";
+                comboBoxWork.DataSource = list;
+                comboBoxWork.SelectedItem = null;
+            }
+            if (id.HasValue)
+            {
+                try
                 {
-                    Id = Convert.ToInt32(textBoxId.Text),
-                    Sum = Convert.ToInt32(textBoxName.Text),
-                    ClientId = Convert.ToInt32(textBoxClientId.Text),
-                    Name = textBoxName.Text,
-                    DateStart = DateTime.Now,
-                    Status = (RepairStatus)Convert.ToInt32(textBoxStatus.Text)
-                });
-                MessageBox.Show("Сохранение прошло успешно", "Сообщение",
-               MessageBoxButtons.OK, MessageBoxIcon.Information);
-                DialogResult = DialogResult.OK;
+                    RepairViewModel view = _logic.Read(new RepairBindingModel
+                    { Id = id })?[0];
+                    if (view != null)
+                    {
+                        textBoxName.Text = view.Name;
+                        WorkViewModel work = logicWork.Read(new WorkBindingModel { Id = view.WorkId })[0];
+                        textBoxSum.Text = work.WorkPrice.ToString();
+                        comboBoxWork.SelectedValue = work.Id;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+                   MessageBoxIcon.Error);
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-               MessageBoxIcon.Error);
-            }
+        }
+
+        private void comboBoxWork_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxWork.SelectedValue == null) return;
+            int workId = (int)comboBoxWork.SelectedValue;
+            if (workId<0) return;
+            WorkViewModel work = logicWork.Read(new WorkBindingModel {Id = workId })[0];
+            if (work == null) return;
+            textBoxSum.Text = work.WorkPrice.ToString();
         }
     }
+    
 }

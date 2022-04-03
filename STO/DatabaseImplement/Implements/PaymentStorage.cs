@@ -2,6 +2,7 @@
 using BuisnessLogic.StorageInterfaces;
 using BuisnessLogic.ViewModels;
 using DatabaseImplement.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace DatabaseImplement.Implements
             }
             using var context = new StoDatabase();
             return context.Payments
-            .Where(rec => rec.Id == model.Id)
+            .Where(rec => rec.RepairId == model.RepairId)
             .Select(CreateModel)
             .ToList();
         }
@@ -39,7 +40,9 @@ namespace DatabaseImplement.Implements
             }
             using var context = new StoDatabase();
             var payment = context.Payments
-            .FirstOrDefault(rec => rec.Id == model.Id);
+             .Include(x=>x.Repair)
+             .OrderByDescending(x => x.Id)
+            .LastOrDefault(rec => rec.RepairId == model.RepairId);
             return payment != null ? CreateModel(payment) : null;
         }
         public void Insert(PaymentBindingModel model)
@@ -78,13 +81,18 @@ namespace DatabaseImplement.Implements
        payment)
         {
             payment.Sum = model.Sum;
+            payment.RepairId = model.RepairId;
+            payment.Remains = model.Remain;
             return payment;
         }
         private static PaymentViewModel CreateModel(Payment payment)
         {
             return new PaymentViewModel
             {
-                Id = (int)payment.Id,
+                Id = payment.Id,
+                Remain = payment.Remains,
+                //RepairName = payment.Repair.Name,
+                RepairId = payment.RepairId,
                 Sum = payment.Sum
             };
         }

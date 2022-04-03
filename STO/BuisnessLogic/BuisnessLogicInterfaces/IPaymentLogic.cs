@@ -9,5 +9,6 @@ namespace BuisnessLogic.BuisnessLogicInterfaces
         List<PaymentViewModel> Read(PaymentBindingModel model);
         void CreateOrUpdate(PaymentBindingModel model);
         void Delete(PaymentBindingModel model);
+        PaymentViewModel GetLastPay(PaymentBindingModel model);
     }
 }

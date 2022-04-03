@@ -22,7 +22,8 @@ namespace BuisnessLogic.BuisnessLogic
                 DateEnd = model.DateEnd,
                 DateStart = model.DateStart,
                 Status = model.Status,
-                EmployeeId = model.EmployeeId
+                EmployeeId = model.EmployeeId,
+                ClientId = model.ClientId
             });
             if (element != null && element.Id != model.Id)
             {
@@ -61,6 +62,10 @@ namespace BuisnessLogic.BuisnessLogic
             if (model.Id.HasValue)
             {
                 return new List<RepairViewModel> { repairStorage.GetElement(model)};
+            }
+            if (model.ClientId != null && model.ClientId > 0)
+            {
+                return repairStorage.GetFilteredList(model);
             }
             return repairStorage.GetFilteredList(model);
         }

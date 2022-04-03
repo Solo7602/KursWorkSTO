@@ -58,11 +58,19 @@ namespace BuisnessLogic.BuisnessLogic
             {
                 return paymentStorage.GetFullList();
             }
+            if(model.RepairId > 0)
+            {
+                return paymentStorage.GetFilteredList(model);
+            }
             if (model.Id.HasValue)
             {
                 return new List<PaymentViewModel> { paymentStorage.GetElement(model) };
             }
             return paymentStorage.GetFilteredList(model);
+        }
+        public PaymentViewModel GetLastPay(PaymentBindingModel model)
+        {
+            return paymentStorage.GetElement(model);
         }
     }
 }

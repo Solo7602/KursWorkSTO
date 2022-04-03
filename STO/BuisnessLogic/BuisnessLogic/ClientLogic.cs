@@ -61,5 +61,9 @@ namespace BuisnessLogic.BuisnessLogic
             }
             return clientStorage.GetFilteredList(model);
         }
+        public ClientViewModel GetClient(ClientBindingModel binding)
+        {
+            return clientStorage.GetElement(binding);
+        }
     }
 }

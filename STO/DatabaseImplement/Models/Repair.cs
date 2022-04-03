@@ -11,7 +11,7 @@ namespace DatabaseImplement.Models
 {
     public class Repair
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
@@ -19,11 +19,12 @@ namespace DatabaseImplement.Models
         public DateTime? DateEnd { get; set; }
         [Required]
         public int Sum { get; set; }
-        public int? WorkId { get; set; }
+        public int WorkId { get; set; }
+        public int? ClientId { get; set; }
         public int? EmployeeId { get; set; }
         public RepairStatus Status {get; set;}
         [ForeignKey("EmployeeId")]
-        public Employee Employee { get; set; }
+        public Employee? Employee { get; set; }
         [ForeignKey("WorkId")]
         public Work Work { get; set; }
         public Client Client{ get; set; }

@@ -1,6 +1,9 @@
+using BuisnessLogic.BindingModels;
 using BuisnessLogic.BuisnessLogic;
 using BuisnessLogic.BuisnessLogicInterfaces;
 using BuisnessLogic.StorageInterfaces;
+using BuisnessLogic.ViewModels;
+using ClietView;
 using DatabaseImplement.Implements;
 using System;
 using System.Collections.Generic;
@@ -15,6 +18,7 @@ namespace ClientView
     internal static class Program
     {
         private static IUnityContainer container = null;
+        public static ClientViewModel client = null;
         public static IUnityContainer Container
         {
             get
@@ -36,7 +40,7 @@ namespace ClientView
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new FormMain());
-            Application.Run(Container.Resolve<FormMain>());
+            Application.Run(Container.Resolve<FormRegistration>());
         }
         private static IUnityContainer BuildUnityContainer()
         {
@@ -52,6 +56,18 @@ namespace ClientView
             currentContainer.RegisterType<IRepairLogic, RepairLogic>(new
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IPaymentLogic, PaymentLogic>(new
+            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IWorkLogic, WorkLogic>(new
+            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IStaffLogic, StaffLogic>(new
+            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IEmployeeLogic, EmployeeLogic>(new
+            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IWorkStorage, WorkStorage>(new
+           HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IStaffStorage, StaffStorage>(new
+            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IEmployeeStorage, EmployeeStorage>(new
             HierarchicalLifetimeManager());
             return currentContainer;
         }

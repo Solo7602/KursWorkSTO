@@ -39,13 +39,21 @@ namespace DatabaseImplement.Implements
             }
             using var context = new StoDatabase();
             var client = context.Clients
-            .FirstOrDefault(rec => rec.Email == model.Email || rec.Id
-           == model.Id);
-            return client != null ? CreateModel(client) : null;
+            .FirstOrDefault(rec => rec.PhoneNumber == model.PhoneNumber);
+            if(client == null)
+            {
+                return null;
+            }
+            return client.Password == model.Password ? CreateModel(client) : null;
         }
         public void Insert(ClientBindingModel model)
         {
             using var context = new StoDatabase();
+            Client element = context.Clients.FirstOrDefault(rec => rec.PhoneNumber ==
+           model.PhoneNumber);
+            if(element != null){
+                throw new Exception("Телефон уже зарегистрирован");
+            }
             context.Clients.Add(CreateModel(model, new Client()));
             context.SaveChanges();
         }
@@ -79,6 +87,7 @@ namespace DatabaseImplement.Implements
        client)
         {
             client.Middlename = model.Middlename;
+            client.Password = model.Password;
             client.Name = model.Name;
             client.Surname = model.Surname;
             client.PhoneNumber = model.PhoneNumber;
@@ -90,6 +99,7 @@ namespace DatabaseImplement.Implements
             return new ClientViewModel
             {
                 Id = client.Id,
+                Password = client.Password,
                 MiddleName = client.Middlename,
                 Name = client.Name,
                 Surname = client.Surname,

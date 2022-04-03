@@ -28,142 +28,115 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.buttonRefresh = new System.Windows.Forms.Button();
-            this.buttonUpdate = new System.Windows.Forms.Button();
-            this.buttonCreate = new System.Windows.Forms.Button();
-            this.buttonDelete = new System.Windows.Forms.Button();
+            this.buttonPay = new System.Windows.Forms.Button();
             this.textBoxSum = new System.Windows.Forms.TextBox();
-            this.textBoxRemain = new System.Windows.Forms.TextBox();
-            this.textBoxRepairId = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.dataGridView = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.textBoxId = new System.Windows.Forms.TextBox();
+            this.labelRemain = new System.Windows.Forms.Label();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Ремонт = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
-            // buttonRefresh
+            // buttonPay
             // 
-            this.buttonRefresh.Location = new System.Drawing.Point(12, 12);
-            this.buttonRefresh.Name = "buttonRefresh";
-            this.buttonRefresh.Size = new System.Drawing.Size(144, 55);
-            this.buttonRefresh.TabIndex = 0;
-            this.buttonRefresh.Text = "Обновить список";
-            this.buttonRefresh.UseVisualStyleBackColor = true;
-            // 
-            // buttonUpdate
-            // 
-            this.buttonUpdate.Location = new System.Drawing.Point(197, 12);
-            this.buttonUpdate.Name = "buttonUpdate";
-            this.buttonUpdate.Size = new System.Drawing.Size(144, 55);
-            this.buttonUpdate.TabIndex = 1;
-            this.buttonUpdate.Text = "Обновить значение";
-            this.buttonUpdate.UseVisualStyleBackColor = true;
-            this.buttonUpdate.Click += new System.EventHandler(this.buttonUpdate_Click);
-            // 
-            // buttonCreate
-            // 
-            this.buttonCreate.Location = new System.Drawing.Point(421, 12);
-            this.buttonCreate.Name = "buttonCreate";
-            this.buttonCreate.Size = new System.Drawing.Size(144, 55);
-            this.buttonCreate.TabIndex = 2;
-            this.buttonCreate.Text = "Создать";
-            this.buttonCreate.UseVisualStyleBackColor = true;
-            this.buttonCreate.Click += new System.EventHandler(this.buttonCreate_Click);
-            // 
-            // buttonDelete
-            // 
-            this.buttonDelete.Location = new System.Drawing.Point(628, 12);
-            this.buttonDelete.Name = "buttonDelete";
-            this.buttonDelete.Size = new System.Drawing.Size(144, 55);
-            this.buttonDelete.TabIndex = 3;
-            this.buttonDelete.Text = "Удалить";
-            this.buttonDelete.UseVisualStyleBackColor = true;
-            this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
+            this.buttonPay.Location = new System.Drawing.Point(23, 23);
+            this.buttonPay.Name = "buttonPay";
+            this.buttonPay.Size = new System.Drawing.Size(158, 45);
+            this.buttonPay.TabIndex = 0;
+            this.buttonPay.Text = "Внести";
+            this.buttonPay.UseVisualStyleBackColor = true;
+            this.buttonPay.Click += new System.EventHandler(this.buttonPay_Click);
             // 
             // textBoxSum
             // 
-            this.textBoxSum.Location = new System.Drawing.Point(310, 112);
+            this.textBoxSum.Location = new System.Drawing.Point(320, 32);
             this.textBoxSum.Name = "textBoxSum";
             this.textBoxSum.Size = new System.Drawing.Size(125, 27);
-            this.textBoxSum.TabIndex = 4;
-            // 
-            // textBoxRemain
-            // 
-            this.textBoxRemain.Location = new System.Drawing.Point(310, 154);
-            this.textBoxRemain.Name = "textBoxRemain";
-            this.textBoxRemain.Size = new System.Drawing.Size(125, 27);
-            this.textBoxRemain.TabIndex = 5;
-            // 
-            // textBoxRepairId
-            // 
-            this.textBoxRepairId.Location = new System.Drawing.Point(310, 203);
-            this.textBoxRepairId.Name = "textBoxRepairId";
-            this.textBoxRepairId.Size = new System.Drawing.Size(125, 27);
-            this.textBoxRepairId.TabIndex = 6;
+            this.textBoxSum.TabIndex = 1;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(219, 112);
+            this.label1.Location = new System.Drawing.Point(222, 35);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(55, 20);
-            this.label1.TabIndex = 9;
+            this.label1.TabIndex = 2;
             this.label1.Text = "Сумма";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.buttonPay);
+            this.groupBox1.Controls.Add(this.textBoxSum);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Location = new System.Drawing.Point(72, 12);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(585, 100);
+            this.groupBox1.TabIndex = 3;
+            this.groupBox1.TabStop = false;
+            // 
+            // dataGridView
+            // 
+            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
+            this.Ремонт});
+            this.dataGridView.Location = new System.Drawing.Point(74, 150);
+            this.dataGridView.Name = "dataGridView";
+            this.dataGridView.RowHeadersWidth = 51;
+            this.dataGridView.RowTemplate.Height = 29;
+            this.dataGridView.Size = new System.Drawing.Size(646, 288);
+            this.dataGridView.TabIndex = 4;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(219, 157);
+            this.label2.Location = new System.Drawing.Point(703, 35);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(63, 20);
-            this.label2.TabIndex = 10;
+            this.label2.TabIndex = 5;
             this.label2.Text = "Остаток";
             // 
-            // label3
+            // labelRemain
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(219, 206);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(81, 20);
-            this.label3.TabIndex = 11;
-            this.label3.Text = "Ремонт ид";
+            this.labelRemain.AutoSize = true;
+            this.labelRemain.Location = new System.Drawing.Point(708, 79);
+            this.labelRemain.Name = "labelRemain";
+            this.labelRemain.Size = new System.Drawing.Size(0, 20);
+            this.labelRemain.TabIndex = 6;
             // 
-            // label6
+            // Column1
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(219, 79);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(22, 20);
-            this.label6.TabIndex = 14;
-            this.label6.Text = "Id";
+            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column1.HeaderText = "Внесенная сумма";
+            this.Column1.MinimumWidth = 6;
+            this.Column1.Name = "Column1";
             // 
-            // textBoxId
+            // Ремонт
             // 
-            this.textBoxId.Location = new System.Drawing.Point(310, 76);
-            this.textBoxId.Name = "textBoxId";
-            this.textBoxId.Size = new System.Drawing.Size(125, 27);
-            this.textBoxId.TabIndex = 15;
+            this.Ремонт.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Ремонт.HeaderText = "Ремонт";
+            this.Ремонт.MinimumWidth = 6;
+            this.Ремонт.Name = "Ремонт";
             // 
             // FormPayment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.textBoxId);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.labelRemain);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBoxRepairId);
-            this.Controls.Add(this.textBoxRemain);
-            this.Controls.Add(this.textBoxSum);
-            this.Controls.Add(this.buttonDelete);
-            this.Controls.Add(this.buttonCreate);
-            this.Controls.Add(this.buttonUpdate);
-            this.Controls.Add(this.buttonRefresh);
+            this.Controls.Add(this.dataGridView);
+            this.Controls.Add(this.groupBox1);
             this.Name = "FormPayment";
             this.Text = "FormClients";
+            this.Load += new System.EventHandler(this.FormPayment_Load);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -171,17 +144,14 @@
 
         #endregion
 
-        private System.Windows.Forms.Button buttonRefresh;
-        private System.Windows.Forms.Button buttonUpdate;
-        private System.Windows.Forms.Button buttonCreate;
-        private System.Windows.Forms.Button buttonDelete;
+        private System.Windows.Forms.Button buttonPay;
         private System.Windows.Forms.TextBox textBoxSum;
-        private System.Windows.Forms.TextBox textBoxRemain;
-        private System.Windows.Forms.TextBox textBoxRepairId;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBoxId;
+        private System.Windows.Forms.Label labelRemain;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Ремонт;
     }
 }

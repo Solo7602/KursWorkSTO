@@ -9,7 +9,7 @@ namespace BuisnessLogic.ViewModels
 {
     public class EmployeeViewModel
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         [DisplayName("Имя сотрудника")]
         public string EmployeeName { get; set; }
         [DisplayName("Фамилия сотрудника")]

@@ -4,14 +4,16 @@ using DatabaseImplement;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseImplement.Migrations
 {
     [DbContext(typeof(StoDatabase))]
-    partial class StoDatabaseModelSnapshot : ModelSnapshot
+    [Migration("20220403151534_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,7 +117,7 @@ namespace DatabaseImplement.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ClientId")
+                    b.Property<int?>("ClientId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DateEnd")
@@ -137,7 +139,7 @@ namespace DatabaseImplement.Migrations
                     b.Property<int>("Sum")
                         .HasColumnType("int");
 
-                    b.Property<int>("WorkId")
+                    b.Property<int?>("WorkId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -214,9 +216,7 @@ namespace DatabaseImplement.Migrations
                 {
                     b.HasOne("DatabaseImplement.Models.Client", "Client")
                         .WithMany("Repairs")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ClientId");
 
                     b.HasOne("DatabaseImplement.Models.Employee", "Employee")
                         .WithMany("Repairs")
@@ -224,9 +224,7 @@ namespace DatabaseImplement.Migrations
 
                     b.HasOne("DatabaseImplement.Models.Work", "Work")
                         .WithMany("Repairs")
-                        .HasForeignKey("WorkId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WorkId");
 
                     b.Navigation("Client");
 

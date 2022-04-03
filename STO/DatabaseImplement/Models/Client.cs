@@ -10,7 +10,9 @@ namespace DatabaseImplement.Models
 {
     public class Client
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
+        [Required]
+        public string Password { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
