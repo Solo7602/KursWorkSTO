@@ -39,13 +39,17 @@ namespace DatabaseImplement.Implements
             }
             using var context = new StoDatabase();
             var employee = context.Employees
-            .FirstOrDefault(rec => rec.EmployeeName == model.EmployeeName || rec.Id
-           == model.Id);
-            return employee != null ? CreateModel(employee) : null;
+            .FirstOrDefault(rec => rec.EmployeePhoneNumber == model.EmployeePhoneNumber);
+            if (employee == null)
+            {
+                return null;
+            }
+            return employee.EmployeePassword == model.EmployeePassword ? CreateModel(employee) : null;
         }
         public void Insert(EmployeeBindingModel model)
         {
             using var context = new StoDatabase();
+            Employee element = context.Employees.FirstOrDefault(rec => rec.EmployeePhoneNumber == model.EmployeePhoneNumber);
             context.Employees.Add(CreateModel(model, new Employee()));
             context.SaveChanges();
         }
@@ -82,6 +86,7 @@ namespace DatabaseImplement.Implements
             employee.EmployeeSurname = model.EmployeeSurname;
             employee.EmployeeMiddlename = model.EmployeeMiddlename;
             employee.EmployeePhoneNumber = model.EmployeePhoneNumber;
+            employee.EmployeePassword = model.EmployeePassword;
             employee.EmployeePrize = (int)model.EmployeePrize;
             return employee;
         }
@@ -94,6 +99,7 @@ namespace DatabaseImplement.Implements
                 EmployeeSurname = employee.EmployeeSurname,
                 EmployeeMiddlename = employee.EmployeeMiddlename,
                 EmployeePhoneNumber = employee.EmployeePhoneNumber,
+                EmployeePassword = employee.EmployeePassword,
                 EmployeePrize = employee.EmployeePrize,
             };
         }

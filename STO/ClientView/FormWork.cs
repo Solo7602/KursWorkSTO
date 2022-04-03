@@ -1,5 +1,6 @@
 ﻿using BuisnessLogic.BindingModels;
 using BuisnessLogic.BuisnessLogicInterfaces;
+using ClientView;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,50 +10,90 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Unity;
 
-namespace ClientView
+namespace EmployeeView
 {
     public partial class FormWork : Form
     {
-        private readonly IWorkLogic _logic;
+        public readonly IWorkLogic _worklogic;
         public FormWork(IWorkLogic logic)
         {
             InitializeComponent();
-            _logic = logic;
+            _worklogic = logic;
         }
-
-        private void buttonAdd_Click(object sender, EventArgs e)
+        private void LoadData()
         {
             try
             {
-                _logic.CreateOrUpdate(new WorkBindingModel
+                var list = _worklogic.Read(null);
+                if (list != null)
                 {
-                    WorkName = textBox1.Text,
-                    WorkPrice = Convert.ToInt32(textBox2.Text),
-                });
-                MessageBox.Show("Сохранение прошло успешно", "Сообщение",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
-                DialogResult = DialogResult.OK;
+                    dataGridView.DataSource = list;
+                    dataGridView.Columns[0].Visible = true;
+                    dataGridView.Columns[1].Visible = true;
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-                MessageBoxIcon.Error);
+               MessageBoxIcon.Error);
             }
         }
 
-        private void buttonDel_Click(object sender, EventArgs e)
+        private void FormWork_Load(object sender, EventArgs e)
         {
-            int id = Convert.ToInt32(textBox3.Text);
-            try
+           LoadData();
+        }
+
+        private void button_Add_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormWorks>();
+            if (form.ShowDialog() == DialogResult.OK)
             {
-                _logic.Delete(new WorkBindingModel { Id = id });
+                LoadData();
             }
-            catch (Exception ex)
+        }
+
+        private void button_Del_Click(object sender, EventArgs e)
+        {
+            if (dataGridView.SelectedRows.Count == 1)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-                MessageBoxIcon.Error);
+                if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo,
+               MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    int id =
+                   Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
+                    try
+                    {
+                        _worklogic.Delete(new WorkBindingModel { Id = id });
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+                       MessageBoxIcon.Error);
+                    }
+                    LoadData();
+                }
             }
+        }
+
+        private void button_Upd_Click(object sender, EventArgs e)
+        {
+            if (dataGridView.SelectedRows.Count == 1)
+            {
+                var form = Program.Container.Resolve<FormWorks>();
+                form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    LoadData();
+                }
+            }
+        }
+
+        private void button_ref_Click(object sender, EventArgs e)
+        {
+            LoadData();
         }
     }
 }

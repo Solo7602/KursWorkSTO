@@ -69,6 +69,10 @@ namespace DatabaseImplement.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("EmployeePassword")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("EmployeePhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

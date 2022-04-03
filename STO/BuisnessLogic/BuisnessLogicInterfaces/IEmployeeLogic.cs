@@ -12,6 +12,7 @@ namespace BuisnessLogic.BuisnessLogicInterfaces
     public interface IEmployeeLogic
     {
         List<EmployeeViewModel> Read(EmployeeBindingModel model);
+        EmployeeViewModel Check(EmployeeBindingModel model);
         void CreateOrUpdate(EmployeeBindingModel model);
         void Delete(EmployeeBindingModel model);
     }

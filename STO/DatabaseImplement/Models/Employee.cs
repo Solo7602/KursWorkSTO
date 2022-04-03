@@ -21,6 +21,8 @@ namespace DatabaseImplement.Models
         [Required]
         public string EmployeePhoneNumber { get; set; }
         [Required]
+        public string EmployeePassword { get; set; }
+        [Required]
         public int EmployeePrize { get; set; }
         [ForeignKey("StaffId")]
         public virtual List<Staff> Staffs { get; set; }

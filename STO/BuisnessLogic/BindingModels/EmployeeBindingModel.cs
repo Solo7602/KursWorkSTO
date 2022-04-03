@@ -13,6 +13,7 @@ namespace BuisnessLogic.BindingModels
         public string EmployeeSurname { get; set; }
         public string EmployeeMiddlename { get; set; }
         public string EmployeePhoneNumber { get; set; }
+        public string EmployeePassword { get; set; }
         public int? EmployeePrize { get; set; }
 
     }
