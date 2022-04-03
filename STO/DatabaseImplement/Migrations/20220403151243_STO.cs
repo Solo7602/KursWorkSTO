@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DatabaseImplement.Migrations
 {
-    public partial class DBSTO : Migration
+    public partial class STO : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -34,6 +34,7 @@ namespace DatabaseImplement.Migrations
                     EmployeeSurname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EmployeeMiddlename = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EmployeePhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EmployeePassword = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EmployeePrize = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

@@ -30,6 +30,11 @@ namespace BuisnessLogic.BuisnessLogic
             }
             return _employeeStorage.GetFilteredList(model);
         }
+
+        public EmployeeViewModel Check(EmployeeBindingModel model)
+        {
+           return _employeeStorage.GetElement(model);
+        }
         public void CreateOrUpdate(EmployeeBindingModel model)
         {
             var element = _employeeStorage.GetElement(new EmployeeBindingModel
@@ -38,6 +43,7 @@ namespace BuisnessLogic.BuisnessLogic
                 EmployeeSurname = model.EmployeeSurname,
                 EmployeeMiddlename = model.EmployeeMiddlename,
                 EmployeePhoneNumber = model.EmployeePhoneNumber,
+                EmployeePassword = model.EmployeePassword,
                 EmployeePrize = model.EmployeePrize
             }) ;
             if (element != null && element.Id != model.Id)

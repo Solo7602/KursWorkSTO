@@ -37,7 +37,7 @@ namespace ClientView
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new FormMain());
-            Application.Run(Container.Resolve<FormMainEmployee>());
+            Application.Run(Container.Resolve<FormLogIn>());
         }
         private static IUnityContainer BuildUnityContainer()
         {
@@ -53,6 +53,18 @@ namespace ClientView
             currentContainer.RegisterType<IWorkLogic, WorkLogic>(new
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IStaffLogic, StaffLogic>(new
+            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IClientStorage,
+            ClientStorage>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IPaymentStorage, PaymentStorage>(new
+            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IRepairStorage, RepairStorage>(new
+            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IClientLogic, ClientLogic>(new
+            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IRepairLogic, RepairLogic>(new
+            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IPaymentLogic, PaymentLogic>(new
             HierarchicalLifetimeManager());
             return currentContainer;
         }

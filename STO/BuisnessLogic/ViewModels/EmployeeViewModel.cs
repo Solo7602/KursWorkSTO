@@ -18,6 +18,7 @@ namespace BuisnessLogic.ViewModels
         public string EmployeeMiddlename { get; set; }
         [DisplayName("Телефон стордника")]
         public string EmployeePhoneNumber { get; set; }
+        public string EmployeePassword { get; set; }   
         [DisplayName("Добавка к окладу")]
         public int EmployeePrize { get; set; }
     }

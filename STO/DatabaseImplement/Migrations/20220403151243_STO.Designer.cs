@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DatabaseImplement.Migrations
 {
     [DbContext(typeof(StoDatabase))]
-    [Migration("20220403141245_DBSTO")]
-    partial class DBSTO
+    [Migration("20220403151243_STO")]
+    partial class STO
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -64,6 +64,10 @@ namespace DatabaseImplement.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EmployeeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmployeePassword")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
