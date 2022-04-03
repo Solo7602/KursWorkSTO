@@ -15,6 +15,6 @@ namespace DatabaseImplement.Models
         public string StaffName { get; set; }
         [Required]
         public int StaffPrice { get; set; }
-        public virtual List<Employee> Employee { get; set; }
+        public virtual Staff Employees { get; set; }
     }
 }

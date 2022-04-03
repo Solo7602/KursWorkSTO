@@ -13,6 +13,6 @@ namespace BuisnessLogic.ViewModels
         [DisplayName("Название должности")]
         public string StaffName { get; set; }
         [DisplayName("Оклад")]
-        public string StaffPrice { get; set; }
+        public int StaffPrice { get; set; }
     }
 }
