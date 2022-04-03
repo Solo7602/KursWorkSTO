@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseImplement", "Databa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuisnessLogic", "BuisnessLogic\BuisnessLogic.csproj", "{90EE2446-BA27-429F-B49C-C52A745C3259}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClietView", "ClietView\ClietView.csproj", "{EC584C03-9693-4CF3-BFE2-9D306016A8F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{90EE2446-BA27-429F-B49C-C52A745C3259}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90EE2446-BA27-429F-B49C-C52A745C3259}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90EE2446-BA27-429F-B49C-C52A745C3259}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC584C03-9693-4CF3-BFE2-9D306016A8F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC584C03-9693-4CF3-BFE2-9D306016A8F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC584C03-9693-4CF3-BFE2-9D306016A8F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC584C03-9693-4CF3-BFE2-9D306016A8F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -61,10 +61,6 @@ namespace DatabaseImplement.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EmployeeNSurname")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("EmployeeName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -73,16 +69,14 @@ namespace DatabaseImplement.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EmployeePrize")
+                    b.Property<int>("EmployeePrize")
+                        .HasColumnType("int");
+
+                    b.Property<string>("EmployeeSurname")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("StaffId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("StaffId");
 
                     b.ToTable("Employees");
                 });
@@ -160,6 +154,12 @@ namespace DatabaseImplement.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("EmployeesId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("StaffId")
+                        .HasColumnType("int");
+
                     b.Property<string>("StaffName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -168,6 +168,10 @@ namespace DatabaseImplement.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EmployeesId");
+
+                    b.HasIndex("StaffId");
 
                     b.ToTable("Staffs");
                 });
@@ -183,22 +187,12 @@ namespace DatabaseImplement.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("WorkPrice")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("WorkPrice")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.ToTable("Works");
-                });
-
-            modelBuilder.Entity("DatabaseImplement.Models.Employee", b =>
-                {
-                    b.HasOne("DatabaseImplement.Models.Staff", "Staffs")
-                        .WithMany("Employee")
-                        .HasForeignKey("StaffId");
-
-                    b.Navigation("Staffs");
                 });
 
             modelBuilder.Entity("DatabaseImplement.Models.Payment", b =>
@@ -233,6 +227,19 @@ namespace DatabaseImplement.Migrations
                     b.Navigation("Work");
                 });
 
+            modelBuilder.Entity("DatabaseImplement.Models.Staff", b =>
+                {
+                    b.HasOne("DatabaseImplement.Models.Staff", "Employees")
+                        .WithMany()
+                        .HasForeignKey("EmployeesId");
+
+                    b.HasOne("DatabaseImplement.Models.Employee", null)
+                        .WithMany("Staffs")
+                        .HasForeignKey("StaffId");
+
+                    b.Navigation("Employees");
+                });
+
             modelBuilder.Entity("DatabaseImplement.Models.Client", b =>
                 {
                     b.Navigation("Repairs");
@@ -241,16 +248,13 @@ namespace DatabaseImplement.Migrations
             modelBuilder.Entity("DatabaseImplement.Models.Employee", b =>
                 {
                     b.Navigation("Repairs");
+
+                    b.Navigation("Staffs");
                 });
 
             modelBuilder.Entity("DatabaseImplement.Models.Repair", b =>
                 {
                     b.Navigation("Payments");
-                });
-
-            modelBuilder.Entity("DatabaseImplement.Models.Staff", b =>
-                {
-                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("DatabaseImplement.Models.Work", b =>

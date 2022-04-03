@@ -23,9 +23,9 @@ namespace DatabaseImplement.Models
         public int? EmployeeId { get; set; }
         public RepairStatus Status {get; set;}
         [ForeignKey("EmployeeId")]
-        public Employee? Employee { get; set; }
+        public Employee Employee { get; set; }
         [ForeignKey("WorkId")]
-        public Work? Work { get; set; }
+        public Work Work { get; set; }
         public Client Client{ get; set; }
         public List<Payment> Payments { get; set; }
     }

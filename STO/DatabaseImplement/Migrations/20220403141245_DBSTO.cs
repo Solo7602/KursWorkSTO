@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DatabaseImplement.Migrations
 {
-    public partial class initial : Migration
+    public partial class DBSTO : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -25,17 +25,20 @@ namespace DatabaseImplement.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Staffs",
+                name: "Employees",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StaffName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StaffPrice = table.Column<int>(type: "int", nullable: false)
+                    EmployeeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EmployeeSurname = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EmployeeMiddlename = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EmployeePhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EmployeePrize = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Staffs", x => x.Id);
+                    table.PrimaryKey("PK_Employees", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -45,7 +48,7 @@ namespace DatabaseImplement.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     WorkName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    WorkPrice = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    WorkPrice = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -53,24 +56,28 @@ namespace DatabaseImplement.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Employees",
+                name: "Staffs",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    EmployeeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EmployeeNSurname = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EmployeeMiddlename = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EmployeePhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EmployeePrize = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StaffName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StaffPrice = table.Column<int>(type: "int", nullable: false),
+                    EmployeesId = table.Column<int>(type: "int", nullable: true),
                     StaffId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Employees", x => x.Id);
+                    table.PrimaryKey("PK_Staffs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Employees_Staffs_StaffId",
+                        name: "FK_Staffs_Employees_StaffId",
                         column: x => x.StaffId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Staffs_Staffs_EmployeesId",
+                        column: x => x.EmployeesId,
                         principalTable: "Staffs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -136,11 +143,6 @@ namespace DatabaseImplement.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employees_StaffId",
-                table: "Employees",
-                column: "StaffId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Payments_RepairId",
                 table: "Payments",
                 column: "RepairId");
@@ -159,12 +161,25 @@ namespace DatabaseImplement.Migrations
                 name: "IX_Repairs_WorkId",
                 table: "Repairs",
                 column: "WorkId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Staffs_EmployeesId",
+                table: "Staffs",
+                column: "EmployeesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Staffs_StaffId",
+                table: "Staffs",
+                column: "StaffId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "Payments");
+
+            migrationBuilder.DropTable(
+                name: "Staffs");
 
             migrationBuilder.DropTable(
                 name: "Repairs");
@@ -177,9 +192,6 @@ namespace DatabaseImplement.Migrations
 
             migrationBuilder.DropTable(
                 name: "Works");
-
-            migrationBuilder.DropTable(
-                name: "Staffs");
         }
     }
 }
