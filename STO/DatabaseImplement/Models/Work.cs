@@ -14,7 +14,7 @@ namespace DatabaseImplement.Models
         [Required]
         public string WorkName { get; set; }
         [Required]
-        public string WorkPrice { get; set; }
-        public virtual List<Repair>? Repairs { get; set; }
+        public int WorkPrice { get; set; }
+        public virtual List<Repair> Repairs { get; set; }
     }
 }

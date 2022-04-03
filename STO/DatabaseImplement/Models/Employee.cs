@@ -15,16 +15,16 @@ namespace DatabaseImplement.Models
         [Required]
         public string EmployeeName { get; set; }
         [Required]
-        public string EmployeeNSurname { get; set; }
+        public string EmployeeSurname { get; set; }
         [Required]
         public string EmployeeMiddlename { get; set; }
         [Required]
         public string EmployeePhoneNumber { get; set; }
         [Required]
-        public string EmployeePrize { get; set; }
+        public int EmployeePrize { get; set; }
         [ForeignKey("StaffId")]
-        public virtual Staff Staffs { get; set; }
-        public virtual List<Repair>? Repairs { get; set; }
+        public virtual List<Staff> Staffs { get; set; }
+        public virtual List<Repair> Repairs { get; set; }
 
     }
 }
