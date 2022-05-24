@@ -17,7 +17,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BuisnessLogic\BuisnessLogic.csproj" />
-    <ProjectReference Include="..\ClientView\EmployeeView.csproj" />
     <ProjectReference Include="..\DatabaseImplement\DatabaseImplement.csproj" />
   </ItemGroup>
 
@@ -26,9 +25,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="FormPayment.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="FormRepair.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

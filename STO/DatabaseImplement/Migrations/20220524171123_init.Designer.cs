@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DatabaseImplement.Migrations
 {
     [DbContext(typeof(StoDatabase))]
-    [Migration("20220524155007_manyToMany")]
-    partial class manyToMany
+    [Migration("20220524171123_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -79,8 +79,8 @@ namespace DatabaseImplement.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("EmployeePrize")
-                        .HasColumnType("int");
+                    b.Property<decimal>("EmployeePrize")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("EmployeeSurname")
                         .IsRequired()
@@ -98,14 +98,17 @@ namespace DatabaseImplement.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Remains")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("DateOfPayment")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Remains")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("RepairId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Sum")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Sum")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -140,8 +143,8 @@ namespace DatabaseImplement.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int>("Sum")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Sum")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("WorkId")
                         .HasColumnType("int");
@@ -197,8 +200,8 @@ namespace DatabaseImplement.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StaffPrice")
-                        .HasColumnType("int");
+                    b.Property<decimal>("StaffPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -220,8 +223,8 @@ namespace DatabaseImplement.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("WorkPrice")
-                        .HasColumnType("int");
+                    b.Property<decimal>("WorkPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 

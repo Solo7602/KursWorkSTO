@@ -38,7 +38,7 @@ namespace ClientView
                         Remain = _logicRep.Read(new RepairBindingModel() { Id = id })[0].Sum
                     };
                 }
-                int remain= lastPay.Remain - Convert.ToInt32(textBoxSum.Text);
+                decimal remain= lastPay.Remain - Convert.ToDecimal(textBoxSum.Text);
                 if (remain < 0) remain = 0;
                 
                 _logic.CreateOrUpdate(new PaymentBindingModel

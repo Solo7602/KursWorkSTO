@@ -156,7 +156,7 @@ namespace DatabaseImplement.Implements
                 repair.DateStart = model.DateStart;
                 repair.DateEnd = model.DateEnd;
                 repair.Sum = model.Sum;
-                if (repair.Id == 0)
+                if (!repair.Id.HasValue)
                 {
                     context.Repairs.Add(repair);
                     context.SaveChanges();

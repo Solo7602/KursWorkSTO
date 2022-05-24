@@ -1,5 +1,5 @@
 ﻿using BuisnessLogic.BindingModels;
-using BuisnessLogic.BuisnessLogicInterfaces;
+using BuisnessLogic.BuisnessLogic;
 using BuisnessLogic.Enums;
 using BuisnessLogic.ViewModels;
 using System;
@@ -11,81 +11,38 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Unity;
 
 namespace ClientView
 {
     public partial class FormRepair : Form
     {
-        private readonly IRepairLogic _logic;
-        private readonly IPaymentLogic _baymentLogic;
-        private readonly IWorkLogic logicWork;
         public int Id { set { id = value; } }
+        private PaymentLogic paymentLogic;
+        private readonly RepairLogic _logic;
+        private readonly WorkLogic workLogic;
         private int? id;
-        public FormRepair(IRepairLogic repairLogic, IWorkLogic workLogic, IPaymentLogic paymentLogic)
+        private Dictionary<int, string> repairWorks;
+        public FormRepair(RepairLogic logic, WorkLogic workLogic, PaymentLogic paymentLogic)
         {
-            _baymentLogic = paymentLogic;
-            logicWork = workLogic;
-            _logic = repairLogic;
+            this.paymentLogic = paymentLogic;
+            this.workLogic= workLogic;
             InitializeComponent();
+            _logic = logic;
         }
-
-        private void buttonCreate_Click(object sender, EventArgs e)
+        private void FormProduct_Load(object sender, EventArgs e)
         {
-            try
-            {
-                _logic.CreateOrUpdate(new RepairBindingModel
-                {
-                    Id = id,
-                    Sum = Convert.ToInt32(textBoxSum.Text),
-                    DateStart = DateTime.Now,
-                    Status = RepairStatus.Adopted,
-                    Name = textBoxName.Text,
-                    ClientId = Program.client.Id,
-                    WorkId = (int)comboBoxWork.SelectedValue
-
-                });
-                MessageBox.Show("Сохранение прошло успешно", "Сообщение",
-               MessageBoxButtons.OK, MessageBoxIcon.Information);
-                DialogResult = DialogResult.OK;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-               MessageBoxIcon.Error);
-            }
-        }
-
-
-        private void FormRepair_Load(object sender, EventArgs e)
-        {
-
-            comboBoxWork.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-
-            var list = logicWork.Read(null);
-            foreach (var component in list)
-            {
-                comboBoxWork.DisplayMember = "WorkName";
-                comboBoxWork.ValueMember = "Id";
-                comboBoxWork.DataSource = list;
-                comboBoxWork.SelectedItem = null;
-            }
             if (id.HasValue)
             {
                 try
                 {
-                    var temp = _baymentLogic.GetLastPay(new PaymentBindingModel() { RepairId = (int)id });
-                    if (temp != null)
-                    {
-                        comboBoxWork.Enabled = false;
-                    }
                     RepairViewModel view = _logic.Read(new RepairBindingModel
-                    { Id = id })?[0];
+                    {Id =id.Value})?[0];
                     if (view != null)
                     {
                         textBoxName.Text = view.Name;
-                        WorkViewModel work = logicWork.Read(new WorkBindingModel {  })[0];
-                        textBoxSum.Text = work.WorkPrice.ToString();
-                        comboBoxWork.SelectedValue = work.Id;
+                        repairWorks = view.repairWorks;
+                        LoadData();
                     }
                 }
                 catch (Exception ex)
@@ -94,17 +51,146 @@ namespace ClientView
                    MessageBoxIcon.Error);
                 }
             }
+            else
+            {
+                repairWorks = new Dictionary<int, string>();
+            }
         }
-
-        private void comboBoxWork_SelectedIndexChanged(object sender, EventArgs e)
+        private void LoadData()
         {
-            if (comboBoxWork.SelectedValue == null) return;
-            int workId = (int)comboBoxWork.SelectedValue;
-            if (workId<0) return;
-            WorkViewModel work = logicWork.Read(new WorkBindingModel {Id = workId })[0];
-            if (work == null) return;
-            textBoxSum.Text = work.WorkPrice.ToString();
+            try
+            {
+                if (repairWorks != null)
+                {
+                    dataGridView.Rows.Clear();
+                    foreach (var pc in repairWorks)
+                    {
+                        dataGridView.Rows.Add(new object[] { pc.Key, pc.Value});
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+               MessageBoxIcon.Error);
+            }
+        }
+        private void ButtonAdd_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormRepairWorks>();
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                if (repairWorks.ContainsKey(form.Id))
+                {
+                    repairWorks[form.Id] = form.WorkName;
+                }
+                else
+                {
+                    repairWorks.Add(form.Id, form.WorkName);
+                }
+                LoadData();
+            }
+        }
+        private void ButtonUpd_Click(object sender, EventArgs e)
+        {
+            if (dataGridView.SelectedRows.Count == 1)
+            {
+                var form = Program.Container.Resolve<FormRepairWorks>();
+                int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
+                form.Id = id;
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    repairWorks[form.Id] = form.WorkName;
+                    LoadData();
+                }
+            }
+        }
+        private void ButtonDel_Click(object sender, EventArgs e)
+        {
+            if (dataGridView.SelectedRows.Count == 1)
+            {
+                if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo,
+               MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    try
+                    {
+
+                        repairWorks.Remove(Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value));
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+                       MessageBoxIcon.Error);
+                    }
+                    LoadData();
+                }
+            }
+        }
+        private void ButtonRef_Click(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+        private void ButtonSave_Click(object sender, EventArgs e)
+        {
+            if (textBoxName.Text=="")
+            {
+                MessageBox.Show("Название не может быть пустым", "Ошибка", MessageBoxButtons.OK,
+
+               MessageBoxIcon.Error);
+                return;
+            }
+            if (repairWorks == null || repairWorks.Count == 0)
+            {
+                MessageBox.Show("Заполните компоненты", "Ошибка", MessageBoxButtons.OK,
+               MessageBoxIcon.Error);
+                return;
+            }
+            try
+            {
+                var listWork = workLogic.Read(null);
+                decimal sumCurrent = listWork
+                    .Where(r => repairWorks.ContainsKey(r.Id)).Sum(r => r.WorkPrice);
+                if (id.HasValue)
+                {
+
+                     decimal sumLast = _logic.Read(new RepairBindingModel()
+                    {
+                        Id = id.Value
+                    })[0].Sum;
+                    var lastPay = paymentLogic.Read(new PaymentBindingModel() { RepairId = (int)id }).Last();
+                    sumCurrent-=(sumLast-lastPay.Sum);
+                    paymentLogic.CreateOrUpdate(new PaymentBindingModel()
+                    {
+                        Id = lastPay.Id,
+                        Remain = sumCurrent
+                    });
+                }
+
+                _logic.CreateOrUpdate(new RepairBindingModel
+                {
+                    Id = id,
+                    DateStart = DateTime.Now,
+                    Sum=sumCurrent,
+                    ClientId=Program.client.Id,
+                    repairWorks=repairWorks,
+                    Name = textBoxName.Text,
+                    Status=RepairStatus.Adopted
+                });
+                MessageBox.Show("Сохранение прошло успешно", "Сообщение",
+               MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DialogResult = DialogResult.OK;
+                Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+               MessageBoxIcon.Error);
+            }
+        }
+        private void ButtonCancel_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+            Close();
         }
     }
-    
 }

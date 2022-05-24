@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DatabaseImplement.Migrations
 {
-    public partial class initial : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -36,7 +36,7 @@ namespace DatabaseImplement.Migrations
                     EmployeeMiddlename = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EmployeePhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EmployeePassword = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EmployeePrize = table.Column<int>(type: "int", nullable: false)
+                    EmployeePrize = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -50,11 +50,43 @@ namespace DatabaseImplement.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     WorkName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    WorkPrice = table.Column<int>(type: "int", nullable: false)
+                    WorkPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Works", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Repairs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateStart = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateEnd = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Sum = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    WorkId = table.Column<int>(type: "int", nullable: false),
+                    ClientId = table.Column<int>(type: "int", nullable: true),
+                    EmployeeId = table.Column<int>(type: "int", nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Repairs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Repairs_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Repairs_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -64,7 +96,7 @@ namespace DatabaseImplement.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     StaffName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StaffPrice = table.Column<int>(type: "int", nullable: false),
+                    StaffPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     EmployeesId = table.Column<int>(type: "int", nullable: true),
                     StaffId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -86,52 +118,15 @@ namespace DatabaseImplement.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Repairs",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateStart = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DateEnd = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Sum = table.Column<int>(type: "int", nullable: false),
-                    WorkId = table.Column<int>(type: "int", nullable: false),
-                    ClientId = table.Column<int>(type: "int", nullable: true),
-                    EmployeeId = table.Column<int>(type: "int", nullable: true),
-                    Status = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Repairs", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Repairs_Clients_ClientId",
-                        column: x => x.ClientId,
-                        principalTable: "Clients",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Repairs_Employees_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "Employees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Repairs_Works_WorkId",
-                        column: x => x.WorkId,
-                        principalTable: "Works",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Payments",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Sum = table.Column<int>(type: "int", nullable: false),
-                    Remains = table.Column<int>(type: "int", nullable: false),
-                    RepairId = table.Column<int>(type: "int", nullable: false)
+                    Sum = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Remains = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    RepairId = table.Column<int>(type: "int", nullable: false),
+                    DateOfPayment = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -142,6 +137,33 @@ namespace DatabaseImplement.Migrations
                         principalTable: "Repairs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RepairWorks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RepairId = table.Column<int>(type: "int", nullable: true),
+                    WorkId = table.Column<int>(type: "int", nullable: false),
+                    WorkId1 = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RepairWorks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RepairWorks_Repairs_WorkId",
+                        column: x => x.WorkId,
+                        principalTable: "Repairs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RepairWorks_Works_WorkId1",
+                        column: x => x.WorkId1,
+                        principalTable: "Works",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -160,9 +182,14 @@ namespace DatabaseImplement.Migrations
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Repairs_WorkId",
-                table: "Repairs",
+                name: "IX_RepairWorks_WorkId",
+                table: "RepairWorks",
                 column: "WorkId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RepairWorks_WorkId1",
+                table: "RepairWorks",
+                column: "WorkId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Staffs_EmployeesId",
@@ -181,19 +208,22 @@ namespace DatabaseImplement.Migrations
                 name: "Payments");
 
             migrationBuilder.DropTable(
+                name: "RepairWorks");
+
+            migrationBuilder.DropTable(
                 name: "Staffs");
 
             migrationBuilder.DropTable(
                 name: "Repairs");
 
             migrationBuilder.DropTable(
+                name: "Works");
+
+            migrationBuilder.DropTable(
                 name: "Clients");
 
             migrationBuilder.DropTable(
                 name: "Employees");
-
-            migrationBuilder.DropTable(
-                name: "Works");
         }
     }
 }
