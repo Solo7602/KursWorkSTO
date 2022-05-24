@@ -26,5 +26,6 @@ namespace DatabaseImplement
         public virtual DbSet<Repair> Repairs { set; get; }
         public virtual DbSet<Staff> Staffs { set; get; }
         public virtual DbSet<Work> Works { set; get; }
+        public virtual DbSet<RepairWork> RepairWorks{ set; get; }
     }
 }

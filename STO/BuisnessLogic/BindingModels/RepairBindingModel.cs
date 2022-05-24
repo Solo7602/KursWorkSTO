@@ -1,5 +1,6 @@
 ﻿using BuisnessLogic.Enums;
 using System;
+using System.Collections.Generic;
 
 namespace BuisnessLogic.BindingModels
 {
@@ -13,6 +14,9 @@ namespace BuisnessLogic.BindingModels
         public DateTime? DateEnd { get; set; }
         public RepairStatus Status { get; set; }
         public int? EmployeeId { get; set; }
+        public Dictionary<int, string> repairWorks { get; set; }
+        public DateTime DateTo { get; set; }
+        public DateTime DateFrom { get; set; }
         public int WorkId { get; set; }
     }
 }

@@ -35,8 +35,7 @@ namespace EmployeeView
                     dataGridView.Rows.Clear();
                     foreach (var order in list)
                     {
-                        dataGridView.Rows.Add(new object[] { order.Id, order.Name, order.Sum, order.DateStart, order.DateEnd,
-                            order.WorkId});
+                        dataGridView.Rows.Add(new object[] { order.Id, order.Name, order.Sum, order.DateStart, order.DateEnd});
                     }
                 }
             }

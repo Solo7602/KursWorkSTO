@@ -76,7 +76,7 @@ namespace ClientView
                     if (view != null)
                     {
                         textBoxName.Text = view.Name;
-                        WorkViewModel work = logicWork.Read(new WorkBindingModel { Id = view.WorkId })[0];
+                        WorkViewModel work = logicWork.Read(new WorkBindingModel {  })[0];
                         textBoxSum.Text = work.WorkPrice.ToString();
                         comboBoxWork.SelectedValue = work.Id;
                     }

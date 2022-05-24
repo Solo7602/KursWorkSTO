@@ -1,5 +1,6 @@
 ﻿using BuisnessLogic.Enums;
 using System;
+using System.Collections.Generic;
 
 namespace BuisnessLogic.ViewModels
 {
@@ -12,8 +13,7 @@ namespace BuisnessLogic.ViewModels
         public int Sum { get; set; }
         public int? ClientId { get; set; }
         public int? EmployeeId { get; set; }
-        public int? WorkId { get; set; }
-        public string WorkName { get; set; }
+        public Dictionary<int,string> repairWorks { get; set; }
         public RepairStatus Status { get; set; }
     }
 }

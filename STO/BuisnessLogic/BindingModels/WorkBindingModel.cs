@@ -11,5 +11,6 @@ namespace BuisnessLogic.BindingModels
         public int? Id { get; set; }
         public string WorkName { get; set; }
         public int WorkPrice { get; set; }
+
     }
 }
