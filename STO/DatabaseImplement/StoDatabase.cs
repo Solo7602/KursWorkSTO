@@ -15,7 +15,7 @@ namespace DatabaseImplement
         {
             if (optionsBuilder.IsConfigured == false)
             {
-                optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=StoDatabase;Trusted_Connection=True");
+                optionsBuilder.UseSqlServer(@"Server=IS-429-00\SQLEXPRESS;Database=StoDatabase;Trusted_Connection=True");
             }
             base.OnConfiguring(optionsBuilder);
 

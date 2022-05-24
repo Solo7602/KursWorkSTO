@@ -1,5 +1,6 @@
 ﻿using BuisnessLogic.BindingModels;
 using BuisnessLogic.BuisnessLogicInterfaces;
+using BuisnessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,12 +31,15 @@ namespace ClientView
             try
             {
                 var lastPay = _logic.GetLastPay(new PaymentBindingModel() { RepairId = id });
-                int remain= _logicRep.Read(new RepairBindingModel() { Id = id})[0].Sum - Convert.ToInt32(textBoxSum.Text);
-                if(lastPay != null)
+                if (lastPay == null)
                 {
-                    remain = lastPay.Remain - Convert.ToInt32(textBoxSum.Text);
-                    if (remain < 0) remain = 0;
+                    lastPay = new PaymentViewModel()
+                    {
+                        Remain = _logicRep.Read(new RepairBindingModel() { Id = id })[0].Sum
+                    };
                 }
+                int remain= lastPay.Remain - Convert.ToInt32(textBoxSum.Text);
+                if (remain < 0) remain = 0;
                 
                 _logic.CreateOrUpdate(new PaymentBindingModel
                 {
@@ -60,6 +64,12 @@ namespace ClientView
             try
             {
                 var lastPay = _logic.GetLastPay(new PaymentBindingModel() { RepairId = id });
+                if(lastPay == null)
+                {
+                    lastPay = new PaymentViewModel() {
+                        Remain = _logicRep.Read(new RepairBindingModel() {Id = id })[0].Sum
+                        };
+                }
                 labelRemain.Text = lastPay.Remain.ToString();
 
                 var list = _logic.Read(new PaymentBindingModel() { RepairId = id});

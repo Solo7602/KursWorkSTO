@@ -17,11 +17,13 @@ namespace ClientView
     public partial class FormRepair : Form
     {
         private readonly IRepairLogic _logic;
+        private readonly IPaymentLogic _baymentLogic;
         private readonly IWorkLogic logicWork;
         public int Id { set { id = value; } }
         private int? id;
-        public FormRepair(IRepairLogic repairLogic, IWorkLogic workLogic)
+        public FormRepair(IRepairLogic repairLogic, IWorkLogic workLogic, IPaymentLogic paymentLogic)
         {
+            _baymentLogic = paymentLogic;
             logicWork = workLogic;
             _logic = repairLogic;
             InitializeComponent();
@@ -71,6 +73,11 @@ namespace ClientView
             {
                 try
                 {
+                    var temp = _baymentLogic.GetLastPay(new PaymentBindingModel() { RepairId = (int)id });
+                    if (temp != null)
+                    {
+                        comboBoxWork.Enabled = false;
+                    }
                     RepairViewModel view = _logic.Read(new RepairBindingModel
                     { Id = id })?[0];
                     if (view != null)

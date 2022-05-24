@@ -41,7 +41,7 @@ namespace DatabaseImplement.Implements
             using var context = new StoDatabase();
             var payment = context.Payments
              .Include(x=>x.Repair)
-             .OrderByDescending(x => x.Id)
+             .OrderBy(x => x.Id)
             .LastOrDefault(rec => rec.RepairId == model.RepairId);
             return payment != null ? CreateModel(payment) : null;
         }
